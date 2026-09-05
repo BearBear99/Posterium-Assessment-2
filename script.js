@@ -351,7 +351,7 @@
 
   function scheduleHide() {
     if (state.hideTimer) window.clearTimeout(state.hideTimer);
-    state.hideTimer = window.setTimeout(hidePopup, 700);
+    state.hideTimer = window.setTimeout(hidePopup, 400);
   }
 
   function cancelHide() {
