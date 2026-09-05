@@ -593,7 +593,7 @@ body {
 
   .fan-copy {
     top: auto;
-    bottom: 0;
+    bottom: 2.75rem;
     height: 8.5rem;
     max-height: none;
     padding: 0 40px;
