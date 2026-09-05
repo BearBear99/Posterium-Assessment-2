@@ -281,11 +281,20 @@
     const radius = state.compact ? 1 : 2;
     const needed = {};
     const slots = [];
-    for (let offset = -(radius + 1); offset <= radius + 1; offset++) {
+    function addSlot(offset) {
       const i = (state.index + offset + n) % n;
-      if (needed[i]) continue;
+      if (needed[i]) return;
       needed[i] = true;
       slots.push({ poster: list[i], offset: offset, i: i });
+    }
+    addSlot(0);
+    for (let d = 1; d <= radius; d++) {
+      addSlot(d);
+      addSlot(-d);
+    }
+    if (n > 2 * radius + 1) {
+      addSlot(radius + 1);
+      addSlot(-(radius + 1));
     }
 
     const keep = {};
