@@ -55,7 +55,12 @@
     hoverDecade: null,
     compact: window.matchMedia("(max-width: 767px)").matches,
     failed: {},
+    hideTimer: null,
   };
+
+  function decadeWindow() {
+    return window.innerWidth < 520 ? 3 : 5;
+  }
 
   function decadeLabel(year) {
     if (!year || year < 1800 || year > 2100) return "Undated";
@@ -336,11 +341,28 @@
   }
 
   function hidePopup() {
+    if (state.hideTimer) {
+      window.clearTimeout(state.hideTimer);
+      state.hideTimer = null;
+    }
     state.hoverDecade = null;
     popupEl.hidden = true;
   }
 
+  function scheduleHide() {
+    if (state.hideTimer) window.clearTimeout(state.hideTimer);
+    state.hideTimer = window.setTimeout(hidePopup, 700);
+  }
+
+  function cancelHide() {
+    if (state.hideTimer) {
+      window.clearTimeout(state.hideTimer);
+      state.hideTimer = null;
+    }
+  }
+
   function showPopup(decade) {
+    cancelHide();
     const list = state.groups.get(decade) || [];
     if (!list.length) {
       hidePopup();
@@ -373,7 +395,7 @@
   }
 
   function renderDecades() {
-    const WINDOW = state.compact ? 3 : 5;
+    const WINDOW = decadeWindow();
     const decades = state.decades;
     const activeIndex = Math.max(0, decades.indexOf(state.decade));
     const half = Math.floor(WINDOW / 2);
@@ -603,7 +625,9 @@
       render();
     }
   });
-  document.querySelector(".timeline").addEventListener("mouseleave", hidePopup);
+  document.querySelector(".timeline").addEventListener("mouseleave", scheduleHide);
+  popupEl.addEventListener("mouseenter", cancelHide);
+  popupEl.addEventListener("mouseleave", scheduleHide);
   popupClose.addEventListener("click", hidePopup);
   document
     .getElementById("detail-close")
@@ -642,12 +666,13 @@
     if (Math.abs(dx) > 48) step(dx < 0 ? 1 : -1);
   });
 
-  window
-    .matchMedia("(max-width: 767px)")
-    .addEventListener("change", function (e) {
-      state.compact = e.matches;
-      if (!fanView.hidden) renderFan(currentList());
-    });
+  window.addEventListener("resize", function () {
+    const next = window.matchMedia("(max-width: 767px)").matches;
+    if (next !== state.compact) {
+      state.compact = next;
+    }
+    if (!fanView.hidden) render();
+  });
 
   loadArchive();
 })();
