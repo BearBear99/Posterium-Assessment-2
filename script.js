@@ -54,6 +54,7 @@
     query: "",
     hoverDecade: null,
     compact: window.matchMedia("(max-width: 767px)").matches,
+    failed: {},
   };
 
   function decadeLabel(year) {
@@ -109,21 +110,15 @@
   }
 
   function imageFromPreview(item) {
-    const imgArr = item.preview || [];
-    const baseurl = MEDIA_URL;
-    let imgurl = "";
-    let thumburl = "";
-    for (let i = 0; i < imgArr.length; i++) {
-      if (imgArr[i].hasOwnProperty("filePath")) {
-        imgurl = baseurl + imgArr[i].filePath;
-        if (imgArr[i].hasOwnProperty("thumbnailFilePath")) {
-          thumburl = baseurl + imgArr[i].thumbnailFilePath;
-        }
-        if (imgArr[i].type === "image") break;
-      }
-    }
-    if (!imgurl) return null;
-    return { image: imgurl, thumb: thumburl || imgurl };
+    const images = (item.preview || []).filter(function (p) {
+      return p && p.type === "image" && p.filePath;
+    });
+    if (!images.length) return null;
+    const img = images[0];
+    return {
+      image: MEDIA_URL + img.filePath,
+      thumb: MEDIA_URL + (img.thumbnailFilePath || img.filePath),
+    };
   }
 
   function mapResult(item) {
@@ -212,6 +207,34 @@
     }
   }
 
+  function dropBroken(id) {
+    if (state.failed[id]) return;
+    state.failed[id] = true;
+    state.posters = state.posters.filter(function (p) {
+      return p.id !== id;
+    });
+    const nextGroups = new Map();
+    state.groups.forEach(function (list, decade) {
+      const kept = list.filter(function (p) {
+        return p.id !== id;
+      });
+      if (kept.length) nextGroups.set(decade, kept);
+    });
+    state.groups = nextGroups;
+    state.decades = Array.from(state.groups.keys()).sort(function (a, b) {
+      if (a === "Undated") return 1;
+      if (b === "Undated") return -1;
+      return parseInt(a, 10) - parseInt(b, 10);
+    });
+    if (!state.groups.has(state.decade)) {
+      state.decade = state.decades[0] || "";
+      state.index = 0;
+    }
+    const list = currentList();
+    if (state.index >= list.length) state.index = 0;
+    render();
+  }
+
   function currentList() {
     return state.groups.get(state.decade) || [];
   }
@@ -287,6 +310,9 @@
       article.style.setProperty("--y", style.y);
       article.style.zIndex = style.z;
       const img = article.querySelector("img");
+      img.onerror = function () {
+        dropBroken(slot.poster.id);
+      };
       if (img.getAttribute("src") !== slot.poster.thumb) {
         img.src = slot.poster.thumb;
       }
