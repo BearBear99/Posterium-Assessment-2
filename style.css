@@ -363,7 +363,7 @@ body {
 .poster-slot {
   position: absolute;
   left: 50%;
-  top: 44%;
+  top: 38%;
   width: min(58vw, 220px);
   aspect-ratio: 2 / 3;
   overflow: hidden;
@@ -414,10 +414,12 @@ body {
 .fan-copy {
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 62%;
+  bottom: auto;
   left: 0;
   text-align: center;
-  height: 6.75rem;
+  height: auto;
+  max-height: 7.25rem;
   overflow: hidden;
   padding: 0 16px;
   pointer-events: none;
@@ -567,7 +569,10 @@ body {
   }
 
   .fan-copy {
+    top: auto;
+    bottom: 0;
     height: 8.5rem;
+    max-height: none;
     padding: 0 40px;
   }
 
