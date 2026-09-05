@@ -53,6 +53,10 @@ a {
   color: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .skip-link {
   position: absolute;
   left: 12px;
@@ -166,8 +170,9 @@ body {
   z-index: 40;
 }
 
-.year-popup[hidden] {
-  display: none;
+.year-popup[hidden],
+.detail[hidden] {
+  display: none !important;
 }
 
 .popup-kicker {
@@ -443,7 +448,7 @@ body {
 }
 
 .detail[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .detail-panel {
