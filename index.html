@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Posterium — NFSA Poster Archive</title>
+    <meta
+      name="description"
+      content="Posterium explores vintage film posters from the National Film and Sound Archive of Australia."
+    />
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to posters</a>
+
+    <header class="site-header">
+      <button id="logo-btn" type="button" aria-label="Refresh Posterium">
+        <img
+          class="brand-logo"
+          id="header-logo"
+          src="assets/logo.png"
+          alt="Posterium"
+          width="72"
+          height="96"
+        />
+      </button>
+      <nav class="timeline" aria-label="Timeline">
+        <button id="decade-prev" type="button" aria-label="Previous decade">
+          ‹
+        </button>
+        <ul id="decade-list"></ul>
+        <button id="decade-next" type="button" aria-label="Next decade">
+          ›
+        </button>
+        <div id="year-popup" class="year-popup" hidden>
+          <p id="popup-kicker" class="popup-kicker"></p>
+          <ul id="popup-list"></ul>
+          <button id="popup-close" type="button"></button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section id="status" class="status" hidden></section>
+      <section id="fan-view" class="fan-view" hidden>
+        <div id="fan" class="fan" aria-live="polite"></div>
+        <div class="fan-copy">
+          <span class="fan-tick" aria-hidden="true"></span>
+          <h1 id="poster-title"></h1>
+          <p id="poster-meta"></p>
+          <p id="poster-summary"></p>
+        </div>
+      </section>
+    </main>
+    <p class="nfsa-credit">
+      From National Film and Sound Archive of Australia
+    </p>
+
+    <div id="detail" class="detail" hidden>
+      <button id="detail-close" type="button" aria-label="Close">×</button>
+      <article class="detail-panel">
+        <img id="detail-image" alt="" />
+        <div class="detail-copy">
+          <p id="detail-kicker"></p>
+          <h2 id="detail-title"></h2>
+          <p id="detail-summary"></p>
+          <a id="detail-link" href="#" target="_blank" rel="noreferrer"
+            >View in NFSA collection</a
+          >
+        </div>
+      </article>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
