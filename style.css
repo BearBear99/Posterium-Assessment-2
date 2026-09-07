@@ -501,9 +501,13 @@ body {
   inset: 0;
   z-index: 40;
   display: grid;
-  place-items: center;
-  padding: 24px;
-  overflow: hidden;
+  align-items: start;
+  justify-items: center;
+  padding: 56px 16px 32px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: rgb(28 22 18 / 0.88);
 }
 
@@ -513,17 +517,18 @@ body {
 
 .detail-panel {
   display: grid;
-  gap: 32px;
+  gap: 16px;
   width: min(960px, 100%);
-  max-height: 90vh;
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
   color: var(--cream);
 }
 
 .detail-panel img {
   width: 100%;
-  max-height: 78vh;
+  max-height: 52vh;
   object-fit: contain;
+  justify-self: center;
 }
 
 .detail-copy h2 {
@@ -548,10 +553,6 @@ body {
   max-width: 36rem;
   line-height: 1.6;
   color: rgb(244 239 230 / 0.8);
-  display: -webkit-box;
-  -webkit-line-clamp: 8;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 #detail-link {
@@ -618,6 +619,19 @@ body {
   .detail-panel {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: center;
+    gap: 32px;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+
+  .detail {
+    align-items: center;
+    padding: 24px;
+    overflow: hidden;
+  }
+
+  .detail-panel img {
+    max-height: 78vh;
   }
 }
 
