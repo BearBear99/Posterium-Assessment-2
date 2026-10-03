@@ -1,13 +1,15 @@
 /**
  * Posterium — Assessment 2
  *
- * Module 4 pattern:
- *   async getData(url) → fetch → response.json() → data.results
- *   loop preview[] and prepend https://media.nfsacollection.net/
+ * Same fetch pattern as Module 4:
+ *   getData(url) → response.json() → data.results
+ *   preview[].filePath is not a full URL, so I prepend the media host.
  *
- * Endpoints (NFSA collection API):
- *   GET /search?query=poster&hasMedia=yes&page=n
- *   GET /title/:id
+ * /search?query=poster&hasMedia=yes&page=n   the fan
+ * /title/:id                                 the detail text
+ *
+ * The longer write-up of what broke is in README.md.
+ * Comments below are the short version, next to the code that fixed it.
  */
 (function () {
   "use strict";
@@ -59,6 +61,8 @@
   };
 
   function decadeWindow() {
+    // matchMedia(767) was wrong for this. A laptop window can be under 767px
+    // wide and then the timeline only showed 3 decades. 520px is actually a phone.
     return window.innerWidth < 520 ? 3 : 5;
   }
 
@@ -67,6 +71,10 @@
     return Math.floor(year / 10) * 10 + "s";
   }
 
+  // NFSA names are catalogue strings, not film titles.
+  // Example shape: "STIR : POSTER, DAYBILL" or just "Untitled".
+  // displayTitle strips the format words. isNamelessTitle drops the ones
+  // that are still empty after that, so the fan is not full of "Untitled".
   function displayTitle(raw) {
     let t = String(raw || "")
       .replace(/[\[\]]/g, "")
@@ -115,6 +123,9 @@
   }
 
   function imageFromPreview(item) {
+    // hasMedia=yes does not mean the preview is an image.
+    // I kept a 2011 record that had a filePath, and the card was a blank gold
+    // rectangle. Only type === "image" is safe. Anything else is skipped here.
     const images = (item.preview || []).filter(function (p) {
       return p && p.type === "image" && p.filePath;
     });
@@ -213,6 +224,8 @@
   }
 
   function dropBroken(id) {
+    // Some paths still 404 after the type check. onerror calls this.
+    // failed[id] stops the same broken image from calling render() in a loop.
     if (state.failed[id]) return;
     state.failed[id] = true;
     state.posters = state.posters.filter(function (p) {
@@ -281,6 +294,11 @@
     const radius = state.compact ? 1 : 2;
     const needed = {};
     const slots = [];
+    // 1900s only has 4 posters (Kelly Gang and three others) but the fan
+    // showed 3, all on the left. Walking offsets from the far left and
+    // skipping duplicates used up every poster before the right side.
+    // Centre first, then right, then left. Ghosts only if the decade is
+    // longer than the fan, otherwise the same poster would appear twice.
     function addSlot(offset) {
       const i = (state.index + offset + n) % n;
       if (needed[i]) return;
@@ -359,6 +377,9 @@
   }
 
   function scheduleHide() {
+    // mouseleave on the year fired before the pointer reached the list,
+    // so the menu vanished. 400ms is enough to cross the gap. Going back
+    // onto the list calls cancelHide().
     if (state.hideTimer) window.clearTimeout(state.hideTimer);
     state.hideTimer = window.setTimeout(hidePopup, 400);
   }
@@ -399,6 +420,7 @@
       popupList.appendChild(li);
     });
     popupClose.textContent =
+      // Was "Off menu". The brief is a count of records in that decade.
       list.length + (list.length === 1 ? " result" : " results");
     popupEl.hidden = false;
   }
@@ -465,6 +487,8 @@
   }
 
   async function getData(url) {
+    // One function for /search and /title/:id, same as the module worksheet.
+    // 429 is the archive asking us to slow down, not a broken URL.
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(
@@ -522,10 +546,14 @@
     showLoading(6);
     try {
       const first = await getData(searchUrl(1));
+      // Left in on purpose. Module 4 says to log the first response so you
+      // can see results / preview / meta before mapping fields.
       console.log("Full API Response:", first);
 
       const available =
         (first.meta && first.meta.count && first.meta.count.total) || 0;
+      // The search can return more than we want on screen. Cap at 500,
+      // then page in parallel. Progress is finished pages / page count.
       const target = Math.min(available || MAX_POSTERS, MAX_POSTERS);
       const pages = Math.max(1, Math.ceil(target / PAGE_SIZE));
       showLoading((1 / pages) * 100);

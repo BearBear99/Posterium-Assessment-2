@@ -53,6 +53,9 @@ a {
   color: inherit;
 }
 
+/* .status and .site-header set display:grid / flex.
+   That beats the browser's [hidden] rule, so the loading panel stayed
+   on top of the fan even after the script set hidden. !important fixes it. */
 [hidden] {
   display: none !important;
 }
@@ -120,6 +123,10 @@ body {
   opacity: 0.3;
 }
 
+/* Child combinator on purpose.
+   #popup-list also lives inside .timeline. A plain ".timeline ul"
+   turned those title buttons into a flex row and the names wrapped
+   one letter per line. */
 .timeline > ul {
   display: flex;
   align-items: center;
@@ -147,6 +154,8 @@ body {
   font-weight: 600;
 }
 
+/* Underline is out of flow. In normal flow it made the active year
+   (2010s) sit higher than the others. */
 .timeline > ul > li button.is-active::after {
   content: "";
   position: absolute;
@@ -411,6 +420,9 @@ body {
   background: var(--burgundy);
 }
 
+/* Absolute so a long summary cannot push the fan up or down.
+   Phone uses top. Desktop override uses bottom. I moved both a few times
+   after checking the layout on each screen. */
 .fan-copy {
   position: absolute;
   right: 0;
@@ -496,6 +508,10 @@ body {
   color: var(--ink-muted);
 }
 
+/* Phone: Stir and other tall posters filled the screen and the year
+   sat underneath with no way to scroll (overflow was hidden).
+   Image is capped. The overlay itself scrolls. Desktop puts this back
+   to a side-by-side panel in the min-width: 768px block. */
 .detail {
   position: fixed;
   inset: 0;

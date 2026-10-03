@@ -6,6 +6,8 @@
 
 Posterium is the Assessment 1 fan layout, but the cards are no longer placeholders. `script.js` calls the NFSA search API from Module 4, groups the posters by decade, and fills the fan, the timeline, and the detail view from that data.
 
+The same fixes are commented in `script.js` and `style.css`, next to the code. This file is the longer version.
+
 Open the folder in VS Code and use Live Server. Do not double-click `index.html`. A `file://` page often blocks `fetch`, and that is also how I hit the loading bug below.
 
 ## Files
