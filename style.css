@@ -439,6 +439,17 @@ body {
   -webkit-overflow-scrolling: touch;
   padding: 0 28px 8px;
   pointer-events: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(110 28 36 / 0.45) transparent;
+}
+
+.fan-copy::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fan-copy::-webkit-scrollbar-thumb {
+  background: rgb(110 28 36 / 0.45);
+  border-radius: 99px;
 }
 
 #poster-title {
