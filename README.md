@@ -71,3 +71,13 @@ Mozilla. (n.d.). *The hidden attribute*. MDN Web Docs. https://developer.mozilla
 National Film and Sound Archive of Australia. (n.d.). *Collection search API*. https://api.collection.nfsa.gov.au/
 
 University of Canberra. (2026). *Module 4: The API* [Unit materials].
+
+## GenAI acknowledgement
+
+I have used the following Generative Artificial Intelligence (GenAI) tools/services in the preparation of this assessment:
+
+- **GenAI service name and version:** Grok (xAI)
+- **Link to the GenAI service:** https://grok.com
+- **Ways this GenAI service was used:** I used it when the program was not working, to help find the cause and check the broken code, and to check grammar in the written English. I decided the design, what the app should do, and which fixes to keep.
+
+I confirm that I have not used GenAI in the preparation of this assessment for any purpose other than what I have acknowledged above.
