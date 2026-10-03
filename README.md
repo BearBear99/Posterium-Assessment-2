@@ -46,7 +46,7 @@ Moving the pointer from the year down into the list crossed a gap, so `mouseleav
 Opening *Stir* (1980) filled the screen. The year and the title were under the image and the overlay was `overflow: hidden`, so there was no way to scroll. On small screens the image is capped at about half the viewport and the overlay scrolls (`106096c`). Desktop is unchanged: image and text sit side by side.
 
 **The caption kept moving.**  
-On the phone the title started too low, under the cards, then I moved it too high. On the laptop it sat a bit too far under the fan. Those were just `top` / `bottom` changes on `.fan-copy` (`4f69772`, `9120566`, `4fca417`). I also stopped letting a long summary push the fan around: the fan is a fixed stage, and the caption has a fixed height.
+On the phone the title started too low, under the cards, then I moved it too high. On the laptop it sat a bit too far under the fan. Those were just `top` / `bottom` changes on `.fan-copy` (`4f69772`, `9120566`, `4fca417`). I also stopped letting a long summary push the fan around: the fan is a fixed stage, and the caption has a fixed height. A very long catalogue title still fits, because that box scrolls instead of growing.
 
 Desktop shows five decade labels. Under about 520px it shows three, with the arrows for the rest (`518a71d`).
 
@@ -58,7 +58,7 @@ I stayed with plain HTML, CSS and JavaScript because that is what Module 4 asks 
 
 The API was the part that did not match the poster I had drawn. A result is not a title plus an image. The title is often a catalogue line (`STIR : POSTER, DAYBILL`). `hasMedia=yes` still returns previews that are not images. `filePath` is a path, not a URL, so it has to be joined to `https://media.nfsacollection.net/`. I found that by logging the first response, which is the check in the module notes, and then by opening records that looked wrong on screen. The blank gold card and the "Untitled" cards were the same kind of mistake: I trusted a field name instead of looking at the value.
 
-I also had to stop treating the page like a document that grows. Early on, a longer description pushed the fan up. On the phone, *Stir* filled the detail view and the year was off the bottom. The fan is now a fixed stage. The detail view is the one place that scrolls, and only on a small screen. That split is what I would keep if I did it again.
+I also had to stop treating the page like a document that grows. Early on, a longer description pushed the fan up. On the phone, *Stir* filled the detail view and the year was off the bottom. The fan is now a fixed stage. On a phone the detail view scrolls. If the title under the fan is a long catalogue line, that caption scrolls inside its own box, so the fan does not move. That split is what I would keep if I did it again.
 
 What I would still change: 500 posters is a cap I chose so the fan stays usable, not the whole archive. The 400ms popup delay is a guess that works on my laptop and my phone, not something I measured. And a few decades are thin, so the fan looks uneven even after the four-poster fix. None of that is a fetch error. It is the layout meeting a collection that is not evenly spread.
 
