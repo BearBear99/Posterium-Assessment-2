@@ -50,6 +50,18 @@ On the phone the title started too low, under the cards, then I moved it too hig
 
 Desktop shows five decade labels. Under about 520px it shows three, with the arrows for the rest (`518a71d`).
 
+## Looking back
+
+The static build already decided the look: a fixed fan, one colour poster in the middle, the rest grey, decades along the top. Assessment 2 was not a new design. It was making that layout survive real records.
+
+I stayed with plain HTML, CSS and JavaScript because that is what Module 4 asks for. A framework would have hidden the part I was supposed to learn, which is `fetch`, reading `results`, and updating the page myself. `getData()` is the only request function. Search and the detail record both go through it. State is one object (`posters`, `groups`, `decade`, `index`). `render()` is the only place that writes the timeline and the fan, so I do not update the DOM in five different functions and then wonder which one is stale.
+
+The API was the part that did not match the poster I had drawn. A result is not a title plus an image. The title is often a catalogue line (`STIR : POSTER, DAYBILL`). `hasMedia=yes` still returns previews that are not images. `filePath` is a path, not a URL, so it has to be joined to `https://media.nfsacollection.net/`. I found that by logging the first response, which is the check in the module notes, and then by opening records that looked wrong on screen. The blank gold card and the "Untitled" cards were the same kind of mistake: I trusted a field name instead of looking at the value.
+
+I also had to stop treating the page like a document that grows. Early on, a longer description pushed the fan up. On the phone, *Stir* filled the detail view and the year was off the bottom. The fan is now a fixed stage. The detail view is the one place that scrolls, and only on a small screen. That split is what I would keep if I did it again.
+
+What I would still change: 500 posters is a cap I chose so the fan stays usable, not the whole archive. The 400ms popup delay is a guess that works on my laptop and my phone, not something I measured. And a few decades are thin, so the fan looks uneven even after the four-poster fix. None of that is a fetch error. It is the layout meeting a collection that is not evenly spread.
+
 ## References
 
 Mozilla. (n.d.). *Using the Fetch API*. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
