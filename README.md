@@ -50,7 +50,7 @@ On the phone the title started too low, under the cards, then I moved it too hig
 
 Desktop shows five decade labels. Under about 520px it shows three, with the arrows for the rest (`518a71d`).
 
-## Looking back
+## Reflection
 
 The static build already decided the look: a fixed fan, one colour poster in the middle, the rest grey, decades along the top. Assessment 2 was not a new design. It was making that layout survive real records.
 
