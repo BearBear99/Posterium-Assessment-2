@@ -612,10 +612,13 @@ body {
   }
 
   .fan-copy {
-    top: auto;
-    bottom: 2.75rem;
-    height: 8.5rem;
-    max-height: 8.5rem;
+    /* Anchored from the top so a short laptop cannot pull the
+       title box up into the posters. Bottom just keeps it above
+       the credit line. Long titles still scroll inside the box. */
+    top: 68%;
+    bottom: 0.4rem;
+    height: auto;
+    max-height: none;
     padding: 0 40px 8px;
   }
 
