@@ -360,20 +360,23 @@ body {
   flex: 1;
   min-height: 0;
   width: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
 .fan {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .poster-slot {
   position: absolute;
   left: 50%;
-  top: 38%;
-  width: min(58vw, 220px);
+  top: 50%;
+  width: min(58vw, 200px);
   aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: 14px;
@@ -420,24 +423,19 @@ body {
   background: var(--burgundy);
 }
 
-/* Absolute so a long summary cannot push the fan up or down.
-   Phone uses top. Desktop override uses bottom. I moved both a few times
-   after checking the layout on each screen.
-   A catalogue title can be two long lines (lobby-card descriptions).
-   The box stays this height and scrolls, instead of clipping the summary. */
+/* The fan and the caption are separate rows. The caption is a fixed
+   height under the posters, so a short screen cannot slide the title
+   up behind the cards, and a long title cannot push the fan. */
 .fan-copy {
-  position: absolute;
-  right: 0;
-  top: 67%;
-  bottom: auto;
-  left: 0;
-  text-align: center;
-  height: auto;
-  max-height: 8rem;
+  position: relative;
+  flex: 0 0 7.4rem;
+  height: 7.4rem;
+  max-height: 7.4rem;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 0 28px 8px;
+  padding: 0 28px 6px;
+  text-align: center;
   pointer-events: auto;
   scrollbar-width: thin;
   scrollbar-color: rgb(110 28 36 / 0.45) transparent;
@@ -608,17 +606,13 @@ body {
 
   .poster-slot {
     width: 200px;
-    top: 36%;
+    top: 50%;
   }
 
   .fan-copy {
-    /* Anchored from the top so a short laptop cannot pull the
-       title box up into the posters. Bottom just keeps it above
-       the credit line. Long titles still scroll inside the box. */
-    top: 68%;
-    bottom: 0.4rem;
-    height: auto;
-    max-height: none;
+    flex-basis: 8.2rem;
+    height: 8.2rem;
+    max-height: 8.2rem;
     padding: 0 40px 8px;
   }
 
@@ -653,6 +647,16 @@ body {
 
   .detail-panel img {
     max-height: 78vh;
+  }
+}
+
+@media (max-height: 760px) {
+  .poster-slot {
+    width: min(46vw, 150px);
+  }
+
+  .brand-logo {
+    height: 40px;
   }
 }
 
